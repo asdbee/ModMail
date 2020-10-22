@@ -1,18 +1,17 @@
 {
-    "name": "modmail",
-    "version": "0.0.1",
-    "main": "server.js",
-    "scripts": {
-      "start": "node server.js"
-    },
-    "dependencies": {
-      "axios": "^0.19.2",
-      "eris": "^0.13.3",
-      "fs": "0.0.1-security",
-      "moment": "^2.29.1"
-    },
-    "engines": {
-      "node": "8.x"
-    }
+  "name": "modmail",
+  "version": "0.0.1",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "eris": "^0.13.3",
+    "fs": "0.0.1-security",
+    "moment": "^2.29.1"
+  },
+  "engines": {
+    "node": "8.x"
   }
-  
+}

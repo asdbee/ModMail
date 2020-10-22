@@ -40,13 +40,19 @@ bot.on("error", (err) => {
     if (msg.guildID === undefined){
       const checkMail = currentMail.find(p => p.userID === msg.author.id)
       const fullU = msg.author.username+'#'+msg.author.discriminator
+      let att = ''
+      console.log(msg.attachments)
+      if (msg.attachments[0] !== undefined){att = msg.attachments[0].filename+'\n'+msg.attachments[0].url}
+      else if (msg.attachments[0] === undefined){att = ''}
+      console.log(att)
+
       if (checkMail === undefined){
       bot.createChannel(config.mainGuild,msg.author.username+' '+msg.author.discriminator,0).then(async (newMail) => {
         await currentMail.push({userID: msg.author.id, closed: false, cID: newMail.id})
         await newMail.edit({parentID: config.mailChannel})
         await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
         await newMail.editPermission(config.modRole,'52224','8192','role','ModRole view allowed.')
-        await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.author.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.content)
+        await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.author.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.content+'\n'+att)
       })
   }
   else if (checkMail !== undefined){
@@ -56,11 +62,11 @@ bot.on("error", (err) => {
         await newMail.edit({parentID: config.mailChannel})
         await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
         await newMail.editPermission(config.modRole,'52224','8192','role','ModRole view allowed.')
-        await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.author.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.content)
+        await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.author.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.content+'\n'+att)
       })
     }
     else if (checkMail.closed === false){
-      bot.createMessage(checkMail.cID,'**'+fullU+'**: '+msg.content)
+      bot.createMessage(checkMail.cID,'**'+fullU+'**: '+msg.content+'\n'+att)
     }
   }
 }
