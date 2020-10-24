@@ -1,6 +1,7 @@
 module.exports = {
     token: 'NzY4NjIwNjgzNjEzNDM3OTYy.X5DHyw.EceYQafMJsGRwJE6iw8cY6CdA3Q',
-    color: 0x0,
+    databaseToken: 'mongodb+srv://bee:WNGfwbxGloPvt4h7@beedb.uv759.mongodb.net/BeeData?retryWrites=true&w=majority',
+    color: 0xfcfcfc,
 
     mainGuild: '312029841061052416',
     logChannel: '717822384198910042',
