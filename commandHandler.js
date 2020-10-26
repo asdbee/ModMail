@@ -21,7 +21,7 @@ function getModMail (id) {
     })
   };
 
-module.exports = (bot,currentMail) => {
+module.exports = (bot) => {
     bot.on('messageCreate', (msg) => {
         if (msg.author.bot) return;
         if (msg.guildID === undefined) return;

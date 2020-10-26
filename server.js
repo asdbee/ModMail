@@ -2,10 +2,8 @@ const fs = require('fs');
 const Eris = require('eris');
 const moment = require('moment');
 const config = require('./config.js');
-const { databaseToken } = require('./config.js');
 const bot = new Eris(config.token, {defaultImageFormat: 'png'});
-const currentMail = []
-require('./commandHandler.js')(bot,currentMail)
+require('./commandHandler.js')(bot)
 require('./database/databaseHandler.js')
 
 function getModMail (id) {
