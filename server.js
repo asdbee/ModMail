@@ -95,6 +95,7 @@ bot.on("error", (err) => {
         await newMail.edit({parentID: config.mailChannel})
         await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
         await newMail.editPermission(config.modRole,'52224','8192','role','ModRole view allowed.')
+        await newMail.editPermission(bot.user.id,'52224','8192','user','ModMail app allowed.')
         await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.author.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
       })
   }
@@ -106,6 +107,7 @@ bot.on("error", (err) => {
         await newMail.edit({parentID: config.mailChannel})
         await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
         await newMail.editPermission(config.modRole,'52224','8192','role','ModRole view allowed.')
+        await newMail.editPermission(bot.user.id,'52224','8192','user','ModMail app allowed.')
         await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.author.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
       })
     }

@@ -1366,3 +1366,8 @@ node_modules/util-deprecate/node.js
 node_modules/util-deprecate/package.json
 node_modules/util-deprecate/README.md
 config.js
+<<<<<<< Updated upstream
+=======
+config.js
+config.js
+>>>>>>> Stashed changes
