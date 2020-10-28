@@ -44,8 +44,7 @@ bot.on('ready', () => {
       if (!bot.guilds.get(config.mainGuild).roles.get(config.modRole)){console.error('Mod role must be in main guild.\nProcess exited with code 1'), process.exit()}
       if (config.msgPrefix.replace(/ /g, '') === ''){console.error('Add a staff message prefix!\nProcess exited with code 1'), process.exit()}
       if (config.prefix.replace(/ /g, '') === ''){console.error('Add a command prefix!\nProcess exited with code 1'), process.exit()}
-
-      console.log('ONLINE ON '+bot.shards.size+' SHARDS')
+  
       console.log('Bot updated successfully ('+moment(bot.startTime).format("lll")+')');
       bot.editStatus('online', { name: config.status, type: 3})
 })
