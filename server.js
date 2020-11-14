@@ -91,6 +91,7 @@ bot.on("error", (err) => {
         await newMail.editPermission(config.modRole,'52224','8192','role','ModRole view allowed.')
         await newMail.editPermission(bot.user.id,'52224','0','member','ModMail app allowed.')
         await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.author.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
+        await bot.getDMChannel(msg.author.id).then((bot) => bot.createMessage('`✔` Your message has been received. A team member will be with you shortly.'))
       })
   }
   else if (checkMail !== null){
@@ -103,6 +104,7 @@ bot.on("error", (err) => {
         await newMail.editPermission(config.modRole,'52224','8192','role','ModRole view allowed.')
         await newMail.editPermission(bot.user.id,'52224','0','member','ModMail app allowed.')
         await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.author.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
+        await bot.getDMChannel(msg.author.id).then((bot) => bot.createMessage('`✔` Your message has been received. A team member will be with you shortly.'))
       })
     }
     else if (checkMail.isClosed === false){
