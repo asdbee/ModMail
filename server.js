@@ -65,12 +65,8 @@ bot.on('channelDelete', (channel) => {
 })
 
 bot.on("error", (err) => {
-    console.log(err)
+    console.log(err.stack)
     if (err.toString().startsWith('Error: Connection reset by peer') || err.toString().startsWith('Error: 1001:')) return;
-    bot.createMessage('717822384198910042',{ embed: {
-      title: 'ERROR',
-      description: '```js\n'+err.stack+'\n```',
-      }});
   });
 
   bot.on('messageCreate', (msg) => {
