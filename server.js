@@ -44,7 +44,7 @@ bot.on('ready', () => {
       if (!bot.guilds.get(config.mainGuild).roles.get(config.modRole)){console.error('Mod role must be in main guild.\nProcess exited with code 1'), process.exit()}
       if (config.msgPrefix.replace(/ /g, '') === ''){console.error('Add a staff message prefix!\nProcess exited with code 1'), process.exit()}
       if (config.prefix.replace(/ /g, '') === ''){console.error('Add a command prefix!\nProcess exited with code 1'), process.exit()}
-
+  
       console.log('Bot updated successfully ('+moment(bot.startTime).format("lll")+')');
       bot.editStatus('online', { name: config.status, type: 3})
 })
@@ -76,7 +76,6 @@ bot.on("error", (err) => {
   bot.on('messageCreate', (msg) => {
     if (msg.author.bot) return;
     if (msg.guildID === undefined){
-      console.log('msggot')
       getModMail(msg.author.id).then((checkMail) => {
       
       // Messaging
