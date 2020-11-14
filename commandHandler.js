@@ -25,6 +25,7 @@ module.exports = (bot) => {
     bot.on('messageCreate', (msg) => {
         if (msg.author.bot) return;
         if (msg.guildID === undefined) return;
+        if (!bot.guilds.get(config.mainGuild).members.get(msg.author.id)) return;
         if (!msg.content.startsWith(config.prefix)) return;
         getChannel(msg.channel.id).then((checkMail) => {
 

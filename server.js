@@ -45,7 +45,6 @@ bot.on('ready', () => {
       if (config.msgPrefix.replace(/ /g, '') === ''){console.error('Add a staff message prefix!\nProcess exited with code 1'), process.exit()}
       if (config.prefix.replace(/ /g, '') === ''){console.error('Add a command prefix!\nProcess exited with code 1'), process.exit()}
 
-      console.log('ONLINE ON '+bot.shards.size+' SHARDS')
       console.log('Bot updated successfully ('+moment(bot.startTime).format("lll")+')');
       bot.editStatus('online', { name: config.status, type: 3})
 })
@@ -76,8 +75,8 @@ bot.on("error", (err) => {
 
   bot.on('messageCreate', (msg) => {
     if (msg.author.bot) return;
-    if (!bot.guilds.get(config.mainGuild).members.get(msg.author.id)) return;
     if (msg.guildID === undefined){
+      console.log('msggot')
       getModMail(msg.author.id).then((checkMail) => {
       
       // Messaging
@@ -95,7 +94,7 @@ bot.on("error", (err) => {
         await newMail.edit({parentID: config.mailChannel})
         await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
         await newMail.editPermission(config.modRole,'52224','8192','role','ModRole view allowed.')
-        await newMail.editPermission(bot.user.id,'52224','8192','user','ModMail app allowed.')
+        await newMail.editPermission(bot.user.id,'52224','0','member','ModMail app allowed.')
         await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.author.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
       })
   }
@@ -107,7 +106,7 @@ bot.on("error", (err) => {
         await newMail.edit({parentID: config.mailChannel})
         await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
         await newMail.editPermission(config.modRole,'52224','8192','role','ModRole view allowed.')
-        await newMail.editPermission(bot.user.id,'52224','8192','user','ModMail app allowed.')
+        await newMail.editPermission(bot.user.id,'52224','0','member','ModMail app allowed.')
         await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.author.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
       })
     }
