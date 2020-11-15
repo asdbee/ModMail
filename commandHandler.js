@@ -142,6 +142,18 @@ module.exports = (bot) => {
             )}
         }
 
+        if (args[0] === 'block'){
+            if (checkMail === null) return bot.createMessage(msg.channel.id,'`!` There is no ModMail affiliated with this channel.')
+            updateDB(msg.channel.id,false,true)
+            bot.createMessage(msg.channel.id,'`✔` Blocked '+msg.channel.guild.members.get(checkMail.userID).username)
+        }
+
+        if (args[0] === 'unblock'){
+            if (checkMail === null) return bot.createMessage(msg.channel.id,'`!` There is no ModMail affiliated with this channel.')
+            updateDB(msg.channel.id,false,false)
+            bot.createMessage(msg.channel.id,'`✔` Unblocked '+msg.channel.guild.members.get(checkMail.userID).username)
+        }
+
     })
 })
 }
