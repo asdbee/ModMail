@@ -11,15 +11,28 @@ function getModMail (id) {
     return getMail.findOne({channelID: cid});
   };
 
-  function updateDB (channel,closed,banned) {
+  function updateDB (channel,closed) {
     const getMail = require('./database/template.js')
     getMail.findOne({channelID: channel}).then((data) => {
     data.channelID = channel,
     data.isClosed = closed,
-    data.isBanned = banned
     data.save()
     })
   };
+
+  function configBan (where,id,banned) {
+    const getMail = require('./database/template.js')
+    if (where === 'fromChannel'){
+    getMail.findOne({channelID: id}).then((data) => {
+        data.isBanned = banned
+        data.save()
+    })}
+    else if (where === 'fromUser'){
+    getMail.findOne({userID: id}).then((data) => {
+        data.isBanned = banned
+        data.save()
+    })}
+  }
 
 module.exports = (bot) => {
     bot.on('messageCreate', (msg) => {
@@ -143,17 +156,26 @@ module.exports = (bot) => {
         }
 
         if (args[0] === 'block'){
-            if (checkMail === null) return bot.createMessage(msg.channel.id,'`!` There is no ModMail affiliated with this channel.')
-            updateDB(msg.channel.id,false,true)
-            bot.createMessage(msg.channel.id,'`✔` Blocked '+msg.channel.guild.members.get(checkMail.userID).username)
+            if (args[1] === undefined){
+                configBan('fromChannel',msg.channel.id,true)
+                bot.createMessage(msg.channel.id,'`✔` Blocked '+msg.channel.guild.members.get(checkMail.userID).username)
+            }
+            else if (args[1] !== undefined){
+                configBan('fromUser',args[1],true)
+                bot.createMessage(msg.channel.id,'`✔` Blocked '+msg.channel.guild.members.get(checkMail.userID).username)
+            }
         }
 
         if (args[0] === 'unblock'){
-            if (checkMail === null) return bot.createMessage(msg.channel.id,'`!` There is no ModMail affiliated with this channel.')
-            updateDB(msg.channel.id,false,false)
-            bot.createMessage(msg.channel.id,'`✔` Unblocked '+msg.channel.guild.members.get(checkMail.userID).username)
+        if (args[1] === undefined){
+            configBan('fromChannel',msg.channel.id,false)
+            bot.createMessage(msg.channel.id,'`✔` Unblocked')
         }
-
+        else if (args[1] !== undefined){
+            configBan('fromUser',args[1],false)
+            bot.createMessage(msg.channel.id,'`✔` Unblocked')
+        }
+    }
     })
 })
 }
