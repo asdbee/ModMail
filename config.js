@@ -5,7 +5,7 @@ module.exports = {
     mainGuild: '',
     logChannel: '',
     mailChannel: '',
-    modRole: '',
+    modRoles: [''],
 
     status: 'for dms!',
     color: 0xfcfcfc,

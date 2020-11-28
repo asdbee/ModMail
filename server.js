@@ -35,16 +35,14 @@ function updateDB (id,channel,closed,banned) {
 
 bot.on('ready', () => {
 
-
       // This below ensure the bot runs smoothly.
       if (!bot.guilds.get(config.mainGuild)){console.error('Main guild must be a valid guild.'), process.exit()}
       if (!bot.guilds.get(config.mainGuild).channels.get(config.logChannel)){console.error('Log channel must be in main guild.\nProcess exited with code 1'), process.exit()}
       if (!bot.guilds.get(config.mainGuild).channels.get(config.mailChannel)){console.error('Mail channel must be in main guild.\nProcess exited with code 1'), process.exit()}
       if (bot.guilds.get(config.mainGuild).channels.get(config.mailChannel).type !== 4){console.error('Mail channel must be a category.\nProcess exited with code 1'), process.exit()}
-      if (!bot.guilds.get(config.mainGuild).roles.get(config.modRole)){console.error('Mod role must be in main guild.\nProcess exited with code 1'), process.exit()}
       if (config.msgPrefix.replace(/ /g, '') === ''){console.error('Add a staff message prefix!\nProcess exited with code 1'), process.exit()}
       if (config.prefix.replace(/ /g, '') === ''){console.error('Add a command prefix!\nProcess exited with code 1'), process.exit()}
-  
+      config.modRoles.forEach((r) => {if (!bot.guilds.get(config.mainGuild).roles.get(r)){console.error('Mod role must be in main guild. ['+r+']\nProcess exited with code 1'), process.exit()}})
       console.log('Bot updated successfully ('+moment(bot.startTime).format("lll")+')');
       bot.editStatus('online', { name: config.status, type: 3})
 })
@@ -88,7 +86,7 @@ bot.on("error", (err) => {
         await createDB(msg.author.id,newMail.id,false,false)
         await newMail.edit({parentID: config.mailChannel})
         await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
-        await newMail.editPermission(config.modRole,'52224','8192','role','ModRole view allowed.')
+        await config.modRoles.forEach((r) => {newMail.editPermission(r,'52224','8192','role','ModRole view allowed.')})
         await newMail.editPermission(bot.user.id,'52224','0','member','ModMail app allowed.')
         await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.author.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
         await bot.getDMChannel(msg.author.id).then((bot) => bot.createMessage('`✔` Your message has been received. A team member will be with you shortly.'))
@@ -101,7 +99,7 @@ bot.on("error", (err) => {
         await updateDB(msg.author.id,newMail.id,false,false)
         await newMail.edit({parentID: config.mailChannel})
         await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
-        await newMail.editPermission(config.modRole,'52224','8192','role','ModRole view allowed.')
+        await config.modRoles.forEach((r) => {newMail.editPermission(r,'52224','8192','role','ModRole view allowed.')})
         await newMail.editPermission(bot.user.id,'52224','0','member','ModMail app allowed.')
         await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.author.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
         await bot.getDMChannel(msg.author.id).then((bot) => bot.createMessage('`✔` Your message has been received. A team member will be with you shortly.'))
