@@ -4,6 +4,7 @@ const modMail = mongoose.Schema({
     _id: String,
     userID: String,
     channelID: String,
+    logFile: String,
     isClosed: Boolean,
     isBanned: Boolean
 })

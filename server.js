@@ -5,30 +5,32 @@ const config = require('./config.js');
 const bot = new Eris(config.token, {defaultImageFormat: 'png'});
 require('./commandHandler.js')(bot)
 require('./database/databaseHandler.js')
+require('./channelLogging.js')(bot)
 
 function getModMail (id) {
   const getMail = require('./database/template.js')
   return getMail.findById(id);
 };
 
-function createDB (user,channel,closed,banned) {
+function createDB (user,channel,closed,logFile,banned) {
   const createMail = require('./database/template.js')
   const newMail = new createMail({
     _id: user,
     userID: user,
     channelID: channel,
+    logFile: logFile,
     isClosed: closed,
     isBanned: banned
 })
 newMail.save()
 };
 
-function updateDB (id,channel,closed,banned) {
+function updateDB (id,channel,closed,log) {
   const getMail = require('./database/template.js')
   getMail.findById(id).then((data) => {
   data.channelID = channel,
   data.isClosed = closed,
-  data.isBanned = banned
+  data.logFile = log
   data.save()
   })
 };
@@ -40,9 +42,10 @@ bot.on('ready', () => {
       if (!bot.guilds.get(config.mainGuild).channels.get(config.logChannel)){console.error('Log channel must be in main guild.\nProcess exited with code 1'), process.exit()}
       if (!bot.guilds.get(config.mainGuild).channels.get(config.mailChannel)){console.error('Mail channel must be in main guild.\nProcess exited with code 1'), process.exit()}
       if (bot.guilds.get(config.mainGuild).channels.get(config.mailChannel).type !== 4){console.error('Mail channel must be a category.\nProcess exited with code 1'), process.exit()}
+      config.modRoles.forEach((r) => {if (!bot.guilds.get(config.mainGuild).roles.get(r)){console.error('Mod role must be in main guild. ['+r+']\nProcess exited with code 1'), process.exit()}})      
       if (config.msgPrefix.replace(/ /g, '') === ''){console.error('Add a staff message prefix!\nProcess exited with code 1'), process.exit()}
       if (config.prefix.replace(/ /g, '') === ''){console.error('Add a command prefix!\nProcess exited with code 1'), process.exit()}
-      config.modRoles.forEach((r) => {if (!bot.guilds.get(config.mainGuild).roles.get(r)){console.error('Mod role must be in main guild. ['+r+']\nProcess exited with code 1'), process.exit()}})
+  
       console.log('Bot updated successfully ('+moment(bot.startTime).format("lll")+')');
       bot.editStatus('online', { name: config.status, type: 3})
 })
@@ -69,6 +72,7 @@ bot.on("error", (err) => {
 
   bot.on('messageCreate', (msg) => {
     if (msg.author.bot) return;
+
     if (msg.guildID === undefined){
       getModMail(msg.author.id).then((checkMail) => {
       
@@ -86,7 +90,7 @@ bot.on("error", (err) => {
         await createDB(msg.author.id,newMail.id,false,false)
         await newMail.edit({parentID: config.mailChannel})
         await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
-        await config.modRoles.forEach((r) => {newMail.editPermission(r,'52224','8192','role','ModRole view allowed.')})
+        await config.modRoles.forEach((r) => {newMail.editPermission(r,'52224','8192','role','ModRole view allowed.')})        
         await newMail.editPermission(bot.user.id,'52224','0','member','ModMail app allowed.')
         await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.author.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
         await bot.getDMChannel(msg.author.id).then((bot) => bot.createMessage('`✔` Your message has been received. A team member will be with you shortly.'))
@@ -96,7 +100,7 @@ bot.on("error", (err) => {
     if (checkMail.isBanned === true) return bot.getDMChannel(checkMail.userID).then((bot) => bot.createMessage('**ModMail Notification**: You have been blacklisted from using '+botName+'!'));
     if (checkMail.isClosed === true){
       bot.createChannel(config.mainGuild,msg.author.username+' '+msg.author.discriminator,0).then(async (newMail) => {
-        await updateDB(msg.author.id,newMail.id,false,false)
+        await updateDB(msg.author.id,newMail.id,false,'')
         await newMail.edit({parentID: config.mailChannel})
         await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
         await config.modRoles.forEach((r) => {newMail.editPermission(r,'52224','8192','role','ModRole view allowed.')})

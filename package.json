@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "create-file": "^1.0.1",
     "eris": "^0.13.3",
     "fs": "0.0.1-security",
     "moment": "^2.29.1",
