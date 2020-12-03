@@ -92,7 +92,7 @@ bot.on("error", (err) => {
         await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
         await config.modRoles.forEach((r) => {newMail.editPermission(r,'52224','8192','role','ModRole view allowed.')})        
         await newMail.editPermission(bot.user.id,'52224','0','member','ModMail app allowed.')
-        await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.member.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
+        await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(bot.guilds.get(config.mainGuild).members.get(msg.author.id).joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
         await bot.getDMChannel(msg.author.id).then((bot) => bot.createMessage('`✔` Your message has been received. A team member will be with you shortly.'))
       })
   }
@@ -105,7 +105,7 @@ bot.on("error", (err) => {
         await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
         await config.modRoles.forEach((r) => {newMail.editPermission(r,'52224','8192','role','ModRole view allowed.')})
         await newMail.editPermission(bot.user.id,'52224','0','member','ModMail app allowed.')
-        await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(msg.member.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
+        await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(bot.guilds.get(config.mainGuild).members.get(msg.author.id).joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
         await bot.getDMChannel(msg.author.id).then((bot) => bot.createMessage('`✔` Your message has been received. A team member will be with you shortly.'))
       })
     }
