@@ -197,8 +197,8 @@ module.exports = (bot) => {
                 bot.createMessage(msg.channel.id,'`✔` Blocked '+msg.channel.guild.members.get(checkMail.userID).username)
             }
             else if (args[1] !== undefined){
-                configBan('fromUser',args[1],true)
-                bot.createMessage(msg.channel.id,'`✔` Blocked '+msg.channel.guild.members.get(checkMail.userID).username)
+                configBan('fromUser',args[1].replace(/[\\<>@#&!]/g, ""),true)
+                bot.createMessage(msg.channel.id,'`✔` Blocked '+msg.channel.guild.members.get(args[1].replace(/[\\<>@#&!]/g, "")).username)
             }
         }
 
@@ -208,8 +208,8 @@ module.exports = (bot) => {
             bot.createMessage(msg.channel.id,'`✔` Unblocked'+msg.channel.guild.members.get(checkMail.userID).username)
         }
         else if (args[1] !== undefined){
-            configBan('fromUser',args[1],false)
-            bot.createMessage(msg.channel.id,'`✔` Unblocked'+msg.channel.guild.members.get(checkMail.userID).username)
+            configBan('fromUser',args[1].replace(/[\\<>@#&!]/g, ""),false)
+            bot.createMessage(msg.channel.id,'`✔` Unblocked'+msg.channel.guild.members.get(args[1].replace(/[\\<>@#&!]/g, "")).username)
         }
     }
 
