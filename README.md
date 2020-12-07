@@ -8,8 +8,8 @@ Information: This bot is written in eris. You'll need to install [node.js](https
 To setup the bot, head over to [Discord's developer portal](https://discord.com/developers/applications), click new application, then bot, and add a bot account. Copy the token and put it into the token slot of the .env file. To run, ensure you have all the components installed;
 
 `npm install eris`
-`npm install fs`
 `npm install moment`
+`npm install axios`
 
 ### Configure the bot in config.js
 
