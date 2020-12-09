@@ -8,11 +8,11 @@ module.exports = {
     execute(bot,msg,args,checkMail){
         if (args[1] === undefined){
             mail.configBan('fromChannel',msg.channel.id,true)
-            bot.createMessage(msg.channel.id,'`✔` Blocked '+msg.channel.guild.members.get(checkMail.userID).username)
+            bot.createMessage(msg.channel.id,'`✔` Blocked user')
         }
         else if (args[1] !== undefined){
             mail.configBan('fromUser',args[1].replace(/[\\<>@#&!]/g, ""),true)
-            bot.createMessage(msg.channel.id,'`✔` Blocked '+msg.channel.guild.members.get(args[1].replace(/[\\<>@#&!]/g, "")).username)
+            bot.createMessage(msg.channel.id,'`✔` Blocked user')
         }
     }
 }
