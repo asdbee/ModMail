@@ -13,10 +13,10 @@ module.exports = (bot) => {
     bot.commands = new Eris.Collection()
 
 bot.on('ready',() => {
-    const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+    const commandFiles = fs.readdirSync(__dirname + './commands').filter(file => file.endsWith('.js'));
 
     for (const file of commandFiles) {
-	    const command = require(`./commands/${file}`)
+	    const command = require(__dirname + `/commands/${file}`)
         bot.commands.set(command.name, command)
         command.shortHands.forEach((s) => bot.commands.set(s, command))
     }
