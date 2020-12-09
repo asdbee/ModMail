@@ -12,7 +12,6 @@ module.exports = {
 
         const get = path.join(__dirname, '../replies/'+args[1]+'.json');
         const c = require(get);
-        console.log(c.annon)
         const fullU = msg.author.username+'#'+msg.author.discriminator
         if (c.annon === false){
         bot.getDMChannel(checkMail.userID).then((bot) => bot.createMessage(config.msgPrefix+' **'+fullU+'**: '+c.reply)).then(
