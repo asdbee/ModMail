@@ -2,28 +2,12 @@ const fs = require('fs');
 const Eris = require('eris');
 const moment = require('moment');
 const config = require('./config.js');
-const bot = new Eris(config.token, {defaultImageFormat: 'png'});
+const bot = new Eris(config.token, {defaultImageFormat: 'png', getAllUsers: false, restMode: true});
 require('./commandHandler.js')(bot)
 require('./database/databaseHandler.js')
 require('./channelLogging.js')(bot)
 
-function getModMail (id) {
-  const getMail = require('./database/template.js')
-  return getMail.findById(id);
-};
-
-function createDB (user,channel,closed,logFile,banned) {
-  const createMail = require('./database/template.js')
-  const newMail = new createMail({
-    _id: user,
-    userID: user,
-    channelID: channel,
-    logFile: logFile,
-    isClosed: closed,
-    isBanned: banned
-})
-newMail.save()
-};
+const mail = require('./modmail.js').get
 
 function updateDB (id,channel,closed,log) {
   const getMail = require('./database/template.js')
@@ -72,9 +56,9 @@ bot.on("error", (err) => {
 
   bot.on('messageCreate', (msg) => {
     if (msg.author.bot) return;
-
+    //if (!bot.guilds.get(config.mainGuild).members.get(msg.author.id)) return
     if (msg.guildID === undefined){
-      getModMail(msg.author.id).then((checkMail) => {
+      mail.getModMail(msg.author.id).then((checkMail) => {
       
       // Messaging
       
@@ -87,13 +71,15 @@ bot.on("error", (err) => {
 
       if (checkMail === null){
       bot.createChannel(config.mainGuild,msg.author.username+' '+msg.author.discriminator,0).then(async (newMail) => {
-        await createDB(msg.author.id,newMail.id,false,false)
+        await mail.createDB(msg.author.id,newMail.id,false,false)
         await newMail.edit({parentID: config.mailChannel})
         await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
         await config.modRoles.forEach((r) => {newMail.editPermission(r,'52224','8192','role','ModRole view allowed.')})        
         await newMail.editPermission(bot.user.id,'52224','0','member','ModMail app allowed.')
-        await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(bot.guilds.get(config.mainGuild).members.get(msg.author.id).joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
+        bot.getRESTGuildMember(config.mainGuild, msg.author.id).then(async (userOb) => {
+        await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(userOb.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
         await bot.getDMChannel(msg.author.id).then((bot) => bot.createMessage('`✔` Your message has been received. A team member will be with you shortly.'))
+        })
       })
   }
   else if (checkMail !== null){
@@ -105,8 +91,10 @@ bot.on("error", (err) => {
         await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
         await config.modRoles.forEach((r) => {newMail.editPermission(r,'52224','8192','role','ModRole view allowed.')})
         await newMail.editPermission(bot.user.id,'52224','0','member','ModMail app allowed.')
-        await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(bot.guilds.get(config.mainGuild).members.get(msg.author.id).joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
+        bot.getRESTGuildMember(config.mainGuild, msg.author.id).then(async (userOb) => {
+        await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(msg.author.createdAt).format("lll")+'\nJoined Server: '+moment(userOb.joinedAt).format("lll")+'\n\n**'+fullU+'**: '+msg.cleanContent+'\n'+att)
         await bot.getDMChannel(msg.author.id).then((bot) => bot.createMessage('`✔` Your message has been received. A team member will be with you shortly.'))
+        })
       })
     }
     else if (checkMail.isClosed === false){
