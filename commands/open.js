@@ -35,8 +35,7 @@ module.exports = {
             await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
             await config.modRoles.forEach((r) => {newMail.editPermission(r,'52224','8192','role','ModRole view allowed.')})
             await newMail.editPermission(bot.user.id,'52224','0','member','ModMail app allowed.')
-            const userJoinDate = await bot.guilds.get(config.mainGuild).members.get(userObject.id).joinedAt
-            await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(userObject.createdAt).format("lll")+'\nJoined Server: '+moment(userJoinDate).format("lll")+'\n\n**This thread was opened by '+msg.author.username+'#'+msg.author.discriminator+'**')
+            await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(userObject.createdAt).format("lll")+'\nJoined Server: '+moment(userOb.joinedAt).format("lll")+'\n\n**This thread was opened by '+msg.author.username+'#'+msg.author.discriminator+'**')
             await bot.getDMChannel(userObject.id).then((bot) => bot.createMessage('`!` A ModMail thread has been opened for you.'))
           })}
         else if (mm === null){
@@ -46,8 +45,7 @@ module.exports = {
             await newMail.editPermission(config.mainGuild,'0','1024','role','@everyone view denied.')
             await config.modRoles.forEach((r) => {newMail.editPermission(r,'52224','8192','role','ModRole view allowed.')})
             await newMail.editPermission(bot.user.id,'52224','0','member','ModMail app allowed.')
-            const userJoinDate = await bot.guilds.get(config.mainGuild).members.get(userObject.id).joinedAt
-            await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(userObject.createdAt).format("lll")+'\nJoined Server: '+moment(userJoinDate).format("lll")+'\n\n**This thread was opened by '+msg.author.username+'#'+msg.author.discriminator+'**')
+            await bot.createMessage(newMail.id,'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: '+moment(userObject.createdAt).format("lll")+'\nJoined Server: '+moment(userOb.joinedAt).format("lll")+'\n\n**This thread was opened by '+msg.author.username+'#'+msg.author.discriminator+'**')
             await bot.getDMChannel(userObject.id).then((bot) => bot.createMessage('`!` A ModMail thread has been opened for you.'))
           })
         }
