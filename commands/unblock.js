@@ -11,7 +11,7 @@ module.exports = {
             bot.createMessage(msg.channel.id,'`✔` Unblocked user')
         }
         else if (args[1] !== undefined){
-            configBan('fromUser',args[1].replace(/[\\<>@#&!]/g, ""),false)
+            mail.configBan('fromUser',args[1].replace(/[\\<>@#&!]/g, ""),false)
             bot.createMessage(msg.channel.id,'`✔` Unblocked user')
         }
     }
