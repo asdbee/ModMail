@@ -20,3 +20,9 @@ Blocks or bans a user from using the Modmail bot. They can still DM the bot, but
 
 ## Unblock 
 Unblocks or unbans a user, this will allow them to create new threads!
+
+## Log
+Sends the current log file of the thread
+
+## Open
+Opens a ModMail thread for a user
