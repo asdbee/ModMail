@@ -26,3 +26,5 @@ Sends the current log file of the thread
 
 ## Open
 Opens a ModMail thread for a user
+
+**Suggest new commands [here](https://github.com/asdbee/ModMail/issues)**
