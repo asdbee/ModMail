@@ -31,7 +31,7 @@ bot.on('ready',() => {
         const cmd = args[0].toLowerCase()
         if (!bot.commands.has(cmd)) return;
         try{
-        bot.commands.get(cmd).execute(bot,msg,args,checkMail);
+        bot.commands.get(cmd).execute(bot, msg, args, checkMail);
         }
         catch (error) {
             bot.createMessage(msg.channel.id,'`X` There was an error executing that command.')

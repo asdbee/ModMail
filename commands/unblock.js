@@ -5,7 +5,7 @@ module.exports = {
     description: "Unblocks a user.",
     usage: '{prefix}unblock [id]',
     shortHands: [''],
-    execute(bot,msg,args,checkMail){
+    execute(bot, msg, args, checkMail){
         if (args[1] === undefined){
             mail.configBan('fromChannel',msg.channel.id,false)
             bot.createMessage(msg.channel.id,'`✔` Unblocked user')

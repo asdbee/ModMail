@@ -7,7 +7,7 @@ module.exports = {
     description: "Closes a Modmail thread.",
     usage: '{prefix}annon [text]',
     shortHands: [''],
-    execute(bot,msg,args,checkMail){
+    execute(bot, msg, args, checkMail){
         if (checkMail === null) return bot.createMessage(msg.channel.id,'`!` There is no ModMail affiliated with this channel.')
         if (args[1] === undefined){
             mail.updateDB(msg.channel.id,true,false)

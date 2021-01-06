@@ -5,7 +5,7 @@ module.exports = {
     description: "Replies to a user in a ModMail thread.",
     usage: '{prefix}reply [text]',
     shortHands: ['r'],
-    execute(bot,msg,args,checkMail){
+    execute(bot, msg, args, checkMail){
         if (checkMail === null) return bot.createMessage(msg.channel.id,'`!` There is no ModMail affiliated with this channel.')
         const fullU = msg.author.username+'#'+msg.author.discriminator
         let att = ''

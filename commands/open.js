@@ -17,7 +17,7 @@ module.exports = {
     description: "Opens a ModMail for a user.",
     usage: '{prefix}open user',
     shortHands: ['r'],
-    execute(bot,msg,args,checkMail){
+    execute(bot, msg, args, checkMail){
         if (args[1] === undefined) return
         const user = args[1].replace(/[\\<>@#&!]/g, "")
         mail.getModMail(user).then((mm) => {
