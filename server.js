@@ -3,9 +3,9 @@ const Eris = require('eris');
 const moment = require('moment');
 const config = require('./config.js');
 const bot = new Eris(config.token, {defaultImageFormat: 'png', getAllUsers: false, restMode: true});
-require('./commandHandler.js')(bot)
-require('./database/databaseHandler.js')
-require('./channelLogging.js')(bot)
+require('./commandHandler.js')(bot);
+require('./database/databaseHandler.js');
+require('./channelLogging.js')(bot);
 
 const mail = require('./modmail.js').get
 
