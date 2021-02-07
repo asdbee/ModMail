@@ -1,14 +1,14 @@
 module.exports = {
-    token: '',
-    databaseToken: '',
+  token: '',
+  databaseToken: '',
 
-    mainGuild: '',
-    logChannel: '',
-    mailChannel: '',
-    modRoles: [''],
+  mainGuild: '',
+  logChannel: '',
+  mailChannel: '',
+  modRoles: [''],
 
-    status: 'for dms!',
-    color: 0xfcfcfc,
-    prefix: '!',
-    msgPrefix: 'Staff'
-}
+  status: 'for dms!',
+  color: 0xfcfcfc,
+  prefix: '!',
+  msgPrefix: 'Staff',
+};
