@@ -1,5 +1,4 @@
 const mail = require('../modmail.js').get;
-const config = require('../config.js');
 module.exports = {
   name: 'unblock',
   description: 'Unblocks a user.',

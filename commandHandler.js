@@ -1,6 +1,5 @@
 const Eris = require('eris');
 const fs = require('fs');
-const path = require('path');
 const config = require('./config.js');
 const mail = require('./modmail.js').get;
 

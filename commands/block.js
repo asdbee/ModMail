@@ -1,5 +1,4 @@
 const mail = require('../modmail.js').get;
-const config = require('../config.js');
 module.exports = {
   name: 'block',
   description: 'Blocks a user from using ModMail.',

@@ -1,4 +1,3 @@
-const mail = require('../modmail.js').get;
 const config = require('../config.js');
 const path = require('path');
 module.exports = {
