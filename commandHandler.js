@@ -17,7 +17,10 @@ module.exports = (bot) => {
     for (const file of commandFiles) {
       const command = require(__dirname + `/commands/${file}`);
       bot.commands.set(command.name, command);
-      command.shortHands.forEach((s) => bot.commands.set(s, command));
+      command.shortHands.forEach((s) => {
+         if (s === '') return
+         bot.commands.set(s, command)
+      });
     }
   });
   bot.on('messageCreate', (msg) => {
