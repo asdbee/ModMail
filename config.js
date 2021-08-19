@@ -11,4 +11,5 @@ module.exports = {
   color: 0xfcfcfc,
   prefix: '!',
   msgPrefix: 'Staff',
+  channelTopic: '',
 };

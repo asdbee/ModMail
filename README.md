@@ -8,7 +8,7 @@ Information: This bot is written in Eris. You'll need to install [node.js](https
 
 # Getting started
 
-To setup the bot, head over to [Discord's developer portal](https://discord.com/developers/applications), click new application, then bot, and add a bot account. Copy the token and put it into the token slot of the .env file. To run, ensure you have all the components installed;
+To setup the bot, head over to [Discord's developer portal](https://discord.com/developers/applications), click new application, then bot, and add a bot account. Copy the token and put it into the token slot of the config file. To run, ensure you have all the components installed;
 
 `npm install eris`
 `npm install moment`
@@ -26,9 +26,10 @@ To setup the bot, head over to [Discord's developer portal](https://discord.com/
     modRoles: [''],
 
     status: 'DM me for support!', // This will be the bot's playing status
-    color: 0xfcfcfc, // Color of logging embeds!
+    color: 0xfcfcfc, // Color of logging embeds
     prefix: '!', // Bot prefix for commands
     msgPrefix: 'Staff' // The prefix that shows on messages (ex. Staff pink,: Hi!)
+    channelTopic: 'ModMail Channel' // This is what the channel topic is set to upon creation.
 ```
 
 A list of all commands can be found [here](https://github.com/asdbee/ModMail/blob/master/help.md)
