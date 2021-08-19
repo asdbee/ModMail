@@ -42,7 +42,7 @@ client.on('ready', () => {
     console.error('Add a command prefix!\nProcess exited with code 1'), process.exit();
   }
 
-  console.log('client updated successfully (' + moment(client.startTime).format('lll') + ')');
+  console.log('Bot updated successfully (' + moment(client.startTime).format('lll') + ')');
   client.editStatus('online', { name: config.status, type: 3 });
 });
 
