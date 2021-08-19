@@ -4,8 +4,8 @@ module.exports = {
   description: 'Replies to a user in a ModMail thread.',
   usage: '{prefix}reply [text]',
   shortHands: ['r'],
-  execute(bot, msg, args, checkMail) {
-    if (checkMail === null) return bot.createMessage(msg.channel.id, '`!` There is no ModMail affiliated with this channel.');
+  execute(client, msg, args, checkMail) {
+    if (checkMail === null) return client.createMessage(msg.channel.id, '`!` There is no ModMail affiliated with this channel.');
     let displayName = '';
     if (msg.member.nick !== null) {
       displayName = msg.member.nick;
@@ -20,9 +20,9 @@ module.exports = {
     }
     if (args[1] === undefined) return;
     const content = msg.content.slice(config.prefix.length + args[0].length + 1);
-    bot
+    client
       .getDMChannel(checkMail.userID)
-      .then((bot) => bot.createMessage(config.msgPrefix + ' **' + displayName + '**: ' + content))
-      .then(bot.createMessage(msg.channel.id, config.msgPrefix + ' **' + displayName + '**: ' + content + '\n' + att), msg.delete());
+      .then((client) => client.createMessage(config.msgPrefix + ' **' + displayName + '**: ' + content))
+      .then(client.createMessage(msg.channel.id, config.msgPrefix + ' **' + displayName + '**: ' + content + '\n' + att), msg.delete());
   },
 };

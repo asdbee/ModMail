@@ -8,34 +8,34 @@ function getModMail(id) {
   return getMail.findById(id);
 }
 
-module.exports = (bot) => {
-  bot.commands = new Eris.Collection();
+module.exports = (client) => {
+  client.commands = new Eris.Collection();
 
-  bot.on('ready', () => {
+  client.on('ready', () => {
     const commandFiles = fs.readdirSync(__dirname + '/commands').filter((file) => file.endsWith('.js'));
 
     for (const file of commandFiles) {
       const command = require(__dirname + `/commands/${file}`);
-      bot.commands.set(command.name, command);
+      client.commands.set(command.name, command);
       command.shortHands.forEach((s) => {
-         if (s === '') return
-         bot.commands.set(s, command)
+        if (s === '') return;
+        client.commands.set(s, command);
       });
     }
   });
-  bot.on('messageCreate', (msg) => {
-    if (msg.author.bot) return;
+  client.on('messageCreate', (msg) => {
+    if (msg.author.client) return;
     if (msg.guildID === undefined) return;
-    if (!bot.guilds.get(config.mainGuild).members.get(msg.author.id)) return;
+    if (!client.guilds.get(config.mainGuild).members.get(msg.author.id)) return;
     if (!msg.content.startsWith(config.prefix)) return;
     mail.getChannel(msg.channel.id).then((checkMail) => {
       const args = msg.content.slice(config.prefix.length).trim().split(' ');
       const cmd = args[0].toLowerCase();
-      if (!bot.commands.has(cmd)) return;
+      if (!client.commands.has(cmd)) return;
       try {
-        bot.commands.get(cmd).execute(bot, msg, args, checkMail);
+        client.commands.get(cmd).execute(client, msg, args, checkMail);
       } catch (error) {
-        bot.createMessage(msg.channel.id, '`X` There was an error executing that command.');
+        client.createMessage(msg.channel.id, '`X` There was an error executing that command.');
         console.log(error.stack);
       }
     });
