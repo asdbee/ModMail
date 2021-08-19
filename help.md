@@ -15,7 +15,6 @@ Closes and deletes the Modmail thread.
 #### Arguments
 
 Silent: Won't send the user a DM that the thread was closed.
-With: Will close the thread and DM the user the reason (ex. !close with Solved)
 
 ## Re
 

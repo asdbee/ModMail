@@ -77,43 +77,6 @@ module.exports = {
       } catch (error) {
         client.createMessage(msg.channel.id, '`X` Unable to close channel due to an error.\n`' + error + '`');
       }
-    } else if (args[1] === 'with') {
-      const getW = msg.content.slice(config.prefix.length + args[0].length + args[1].length + 2);
-      client
-        .getDMChannel(checkMail.userID)
-        .then((client) => client.createMessage('**ModMail Notification**: Your ModMail has been closed. ' + getW))
-        .then(() => {
-          client.createMessage(config.logChannel, {
-            embed: {
-              title: 'ModMail Closed',
-              fields: [
-                {
-                  name: 'ModMail',
-                  value: msg.channel.name + '\n(`' + msg.channel.id + '`)',
-                  inline: true,
-                },
-                {
-                  name: 'Details',
-                  value: 'Moderator: ' + msg.author.mention + '\n(' + msg.author.username + '#' + msg.author.discriminator + ')',
-                  inline: true,
-                },
-              ],
-              color: config.color,
-            },
-          });
-          try {
-            const file = path.join(__dirname, '../logs/' + msg.channel.id + '.txt');
-            const buffer = fs.readFileSync(file);
-            client
-              .createMessage(config.logChannel, `ModMail Transcript (${msg.channel.id})`, {
-                file: buffer,
-                name: 'transcript.txt',
-              })
-              .then(msg.channel.delete());
-          } catch (error) {
-            client.createMessage(msg.channel.id, '`X` Unable to close channel due to an error.\n`' + error + '`');
-          }
-        });
     }
   },
 };
