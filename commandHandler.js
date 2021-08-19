@@ -29,6 +29,7 @@ module.exports = (client) => {
     if (!client.guilds.get(config.mainGuild).members.get(msg.author.id)) return;
     if (!msg.content.startsWith(config.prefix)) return;
     mail.getChannel(msg.channel.id).then((checkMail) => {
+      if (checkMail === null) return client.createMessage(msg.channel.id, '`!` There is no modmail affiliated with this channel.');
       const args = msg.content.slice(config.prefix.length).trim().split(' ');
       const cmd = args[0].toLowerCase();
       if (!client.commands.has(cmd)) return;
