@@ -67,7 +67,7 @@ client.on('error', (err) => {
 });
 
 client.on('messageCreate', (msg) => {
-  if (msg.author.client) return;
+  if (msg.author.bot) return;
   //if (!client.guilds.get(config.mainGuild).members.get(msg.author.id)) return
   if (msg.guildID === undefined) {
     mail.getModMail(msg.author.id).then((checkMail) => {
