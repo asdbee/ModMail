@@ -6,7 +6,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "create-file": "^1.0.1",
     "eris": "^0.13.3",
     "fs": "0.0.1-security",
