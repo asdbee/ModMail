@@ -1,10 +1,11 @@
 const Eris = require('eris');
 const fs = require('fs');
-const config = require('./config.js');
-const mail = require('./modmail.js').get;
+const path = require('path');
+const config = require('../config.js');
+const mail = require('../modmail.js').get;
 
 function getModMail(id) {
-  const getMail = require('./database/template.js');
+  const getMail = require('../database/template.js');
   return getMail.findById(id);
 }
 
@@ -12,10 +13,10 @@ module.exports = (client) => {
   client.commands = new Eris.Collection();
 
   client.on('ready', () => {
-    const commandFiles = fs.readdirSync(__dirname + '/commands').filter((file) => file.endsWith('.js'));
+    const commandFiles = fs.readdirSync(path.resolve(__dirname, '../commands')).filter((file) => file.endsWith('.js'));
 
     for (const file of commandFiles) {
-      const command = require(__dirname + `/commands/${file}`);
+      const command = require(path.resolve(__dirname, `../commands/${file}`));
       client.commands.set(command.name, command);
       command.shortHands.forEach((s) => {
         if (s === '') return;

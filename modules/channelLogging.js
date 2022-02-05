@@ -1,11 +1,11 @@
-const mail = require('./database/template.js');
+const mail = require('../database/template.js');
 const fs = require('fs');
 const path = require('path');
 module.exports = (client) => {
   function updateLog(channel, author, message) {
-    fs.appendFile(path.join(__dirname, '/logs/' + channel + '.txt'), `${author.username}#${author.discriminator}: ${message}\n`, function (err) {
+    fs.appendFile(path.join(__dirname, '../logs/' + channel + '.txt'), `${author.username}#${author.discriminator}: ${message}\n`, function (err) {
       if (err) {
-        console.error('UNABLE TO LOG TO TRANSCRIPT');
+        console.error(`UNABLE TO LOG TO TRANSCRIPT\n${err}`);
       } else return;
     });
   }
