@@ -6,6 +6,7 @@ module.exports = {
   logChannel: '',
   mailChannel: '',
   modRoles: [''],
+  useOverwrites: false,
 
   status: 'for dms!',
   color: 0xfcfcfc,
