@@ -2,9 +2,9 @@ const Eris = require('eris');
 const moment = require('moment');
 const config = require('./config.js');
 const client = new Eris(config.token, { defaultImageFormat: 'png', getAllUsers: false, restMode: true });
-require('./commandHandler.js')(client);
+require('./modules/commandHandler.js')(client);
 require('./database/databaseHandler.js');
-require('./channelLogging.js')(client);
+require('./modules/channelLogging.js')(client);
 
 const mail = require('./modmail.js').get;
 
@@ -13,6 +13,31 @@ function updateDB(id, channel, closed, log) {
   getMail.findById(id).then((data) => {
     (data.channelID = channel), (data.isClosed = closed), (data.logFile = log);
     data.save();
+  });
+}
+
+function fixClosed(msg, fullU) {
+  client.createChannel(config.mainGuild, msg.author.username + ' ' + msg.author.discriminator, 0).then(async (newMail) => {
+    await updateDB(msg.author.id, newMail.id, false, '');
+    await newMail.edit({ parentID: config.mailChannel });
+    await newMail.editPermission(config.mainGuild, '0', '1024', 'role', '@everyone view denied.');
+    if (config.useOverwrites === false) {
+      await config.modRoles.forEach((r) => {
+        newMail.editPermission(r, '52224', '8192', 'role', 'ModRole view allowed.');
+      });
+    } else if (config.useOverwrites === true) {
+      client.guilds
+        .get(config.mainGuild)
+        .channels.get(config.mailChannel)
+        .permissionOverwrites.forEach((c) => {
+          newMail.editPermission(c.id, c.allow, c.deny, c.type, 'ModMail Permissions');
+        });
+    }
+    await newMail.editPermission(client.user.id, '52224', '0', 'member', 'ModMail app allowed.');
+    client.getRESTGuildMember(config.mainGuild, msg.author.id).then(async (userOb) => {
+      await client.createMessage(newMail.id, 'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: ' + moment(msg.author.createdAt).format('lll') + '\nJoined Server: ' + moment(userOb.joinedAt).format('lll') + '\n\n**' + fullU + '**: ' + msg.cleanContent + '\n' + att);
+      await client.getDMChannel(msg.author.id).then((client) => client.createMessage('`✔` Your message has been received. A team member will be with you shortly.'));
+    });
   });
 }
 
@@ -88,9 +113,18 @@ client.on('messageCreate', (msg) => {
           await mail.createDB(msg.author.id, newMail.id, false, false);
           await newMail.edit({ parentID: config.mailChannel });
           await newMail.editPermission(config.mainGuild, '0', '1024', 'role', '@everyone view denied.');
-          await config.modRoles.forEach((r) => {
-            newMail.editPermission(r, '52224', '8192', 'role', 'ModRole view allowed.');
-          });
+          if (config.useOverwrites === false) {
+            await config.modRoles.forEach((r) => {
+              newMail.editPermission(r, '52224', '8192', 'role', 'ModRole view allowed.');
+            });
+          } else if (config.useOverwrites === true) {
+            client.guilds
+              .get(config.mainGuild)
+              .channels.get(config.mailChannel)
+              .permissionOverwrites.forEach((c) => {
+                newMail.editPermission(c.id, c.allow, c.deny, c.type, 'ModMail Permissions');
+              });
+          }
           await newMail.editPermission(client.user.id, '52224', '0', 'member', 'ModMail app allowed.');
           client.getRESTGuildMember(config.mainGuild, msg.author.id).then(async (userOb) => {
             await client.createMessage(newMail.id, 'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: ' + moment(msg.author.createdAt).format('lll') + '\nJoined Server: ' + moment(userOb.joinedAt).format('lll') + '\n\n**' + fullU + '**: ' + msg.cleanContent + '\n' + att);
@@ -104,9 +138,18 @@ client.on('messageCreate', (msg) => {
             await updateDB(msg.author.id, newMail.id, false, '');
             await newMail.edit({ parentID: config.mailChannel });
             await newMail.editPermission(config.mainGuild, '0', '1024', 'role', '@everyone view denied.');
-            await config.modRoles.forEach((r) => {
-              newMail.editPermission(r, '52224', '8192', 'role', 'ModRole view allowed.');
-            });
+            if (config.useOverwrites === false) {
+              await config.modRoles.forEach((r) => {
+                newMail.editPermission(r, '52224', '8192', 'role', 'ModRole view allowed.');
+              });
+            } else if (config.useOverwrites === true) {
+              client.guilds
+                .get(config.mainGuild)
+                .channels.get(config.mailChannel)
+                .permissionOverwrites.forEach((c) => {
+                  newMail.editPermission(c.id, c.allow, c.deny, c.type, 'ModMail Permissions');
+                });
+            }
             await newMail.editPermission(client.user.id, '52224', '0', 'member', 'ModMail app allowed.');
             client.getRESTGuildMember(config.mainGuild, msg.author.id).then(async (userOb) => {
               await client.createMessage(newMail.id, 'New ModMail\n—————————————————\n**Account Information**\n\nCreation Date: ' + moment(msg.author.createdAt).format('lll') + '\nJoined Server: ' + moment(userOb.joinedAt).format('lll') + '\n\n**' + fullU + '**: ' + msg.cleanContent + '\n' + att);
@@ -114,11 +157,17 @@ client.on('messageCreate', (msg) => {
             });
           });
         } else if (checkMail.isClosed === false) {
+          if (checkMail.isBanned === true) return client.getDMChannel(checkMail.userID).then((client) => client.createMessage('**ModMail Notification**: You have been blacklisted from using ' + clientName + '!'));
+          if (!client.guilds.get(config.mainGuild).channels.get(checkMail.channelID)) return fixClosed(msg, fullU);
           client.createMessage(checkMail.channelID, '**' + fullU + '**: ' + msg.cleanContent + '\n' + att);
         }
       }
     });
   }
+});
+
+process.on('uncaughtException', (error) => {
+  console.log(error);
 });
 
 client.connect();
