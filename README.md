@@ -1,5 +1,3 @@
-# ** V2 IS NOT DONE, WE SUGGEST YOU NOT USE THIS VERSION YET **
-
 # ModMail
 
 Welcome to ModMail. ModMail is an open-source ModMail bot that helps Discord Guild Moderators help their community easily and privately!
