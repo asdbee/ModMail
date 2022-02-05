@@ -22,6 +22,7 @@ To setup the bot, head over to [Discord's developer portal](https://discord.com/
     logChannel: '', // Channel ID of where you want ModMail Logs
     mailChannel: '', // **Category** ID of where you want ModMail channels to be!
     modRoles: [''],
+    useOverwrites: false, // Set this to true if you'd like to sync the modmail channel with the parent category (This will void mod roles)
 
     status: 'DM me for support!', // This will be the bot's playing status
     color: 0xfcfcfc, // Color of logging embeds
