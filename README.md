@@ -31,3 +31,5 @@ To setup the bot, head over to [Discord's developer portal](https://discord.com/
 A list of all commands can be found [here](https://github.com/asdbee/ModMail/blob/master/help.md)
 
 **If you're running into any issues with your current ModMail, ensure that all code is updated. If you still encounter an error, post an [issue](https://github.com/asdbee/ModMail/issues)**
+
+**READ**: This GitHub repository may be used for educational purposes and personal use. The contents of this repository must not be reuploaded unless forked. Reuploading this code and claiming it was created by you or such, may lead to legal implications.
